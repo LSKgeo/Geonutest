@@ -1,4 +1,4 @@
-function [flux] = groupFluxSums(s1_cc_flux_sums,s2_cc_flux_sums,s3_cc_flux_sums,...
+function [flux] = groupFluxSums(calcMantle,s1_cc_flux_sums,s2_cc_flux_sums,s3_cc_flux_sums,...
     UC_cc_flux_sums, MC_cc_flux_sums,LC_cc_flux_sums,LM_cc_flux_sums,...
     s1_oc_flux_sums,s2_oc_flux_sums,s3_oc_flux_sums,...
     UC_oc_flux_sums,MC_oc_flux_sums,LC_oc_flux_sums,LM_oc_flux_sums,...
@@ -98,8 +98,11 @@ function [flux] = groupFluxSums(s1_cc_flux_sums,s2_cc_flux_sums,s3_cc_flux_sums,
     flux.MC.count.U238 = sum(bsxfun(@times,MC_distCount_sums(:,U238),TNU.U238),2); 
     flux.LC.count.U238 = sum(bsxfun(@times,LC_distCount_sums(:,U238),TNU.U238),2); 
     flux.LM.count.U238 = sum(bsxfun(@times,LM_distCount_sums(:,U238),TNU.U238),2); 
+
+    if calcMantle == 1
     flux.man.dm.count.U238 = sum(bsxfun(@times,man_distCount_sums_dm(:,U238),TNU.U238),2);
     flux.man.em.count.U238 = sum(bsxfun(@times,man_distCount_sums_em(:,U238),TNU.U238),2);
+    end
 
     flux.s1.count.Th232 = sum(bsxfun(@times,s1_distCount_sums(:,Th232),TNU.Th232),2); 
     flux.s2.count.Th232 = sum(bsxfun(@times,s2_distCount_sums(:,Th232),TNU.Th232),2); 
@@ -108,13 +111,18 @@ function [flux] = groupFluxSums(s1_cc_flux_sums,s2_cc_flux_sums,s3_cc_flux_sums,
     flux.MC.count.Th232 = sum(bsxfun(@times,MC_distCount_sums(:,Th232),TNU.Th232),2); 
     flux.LC.count.Th232 = sum(bsxfun(@times,LC_distCount_sums(:,Th232),TNU.Th232),2); 
     flux.LM.count.Th232 = sum(bsxfun(@times,LM_distCount_sums(:,Th232),TNU.Th232),2); 
+
+    % Mantle
+    if calcMantle == 1
     flux.man.dm.count.Th232 = sum(bsxfun(@times,man_distCount_sums_dm(:,Th232),TNU.Th232),2);
     flux.man.em.count.Th232 = sum(bsxfun(@times,man_distCount_sums_em(:,Th232),TNU.Th232),2);
+  
 
-% Mantle
+
     flux.man.dm.U238 = sum(bsxfun(@times,man_flux_sums_dm(:,U238),TNU.U238),2); 
     flux.man.dm.Th232 = sum(bsxfun(@times,man_flux_sums_dm(:,Th232),TNU.Th232),2); 
     
     flux.man.em.U238 = sum(bsxfun(@times,man_flux_sums_em(:,U238),TNU.U238),2); 
     flux.man.em.Th232 = sum(bsxfun(@times,man_flux_sums_em(:,Th232),TNU.Th232),2);
+    end
 end
