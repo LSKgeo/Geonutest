@@ -1,6 +1,17 @@
 function [tab] = createFluxStatsStruct(flux, final_cut, stat_method1, stat_method2, stat_method3)
 %UNTITLED7 Summary of this function goes here
 %   Detailed explanation goes here
+% why is LM being input as NaN?
+
+if nargin == 3
+    stat_method2 = stat_method1;
+    stat_method3 = stat_method1;
+
+elseif nargin == 4
+    stat_method3 = stat_method1;
+else
+end
+
 % Sediment (TNU) (lognormal or normal, both fit well and give ~same unc.)
     tab.flux.U238(1,:) = stat(flux.sed.sums.cc.U238(final_cut), stat_method1); 
     tab.flux.Th232(1,:) = stat(flux.sed.sums.cc.Th232(final_cut), stat_method1); 
@@ -97,16 +108,17 @@ function [tab] = createFluxStatsStruct(flux, final_cut, stat_method1, stat_metho
 
     
 % Depleted Mantle (DM; TNU) (normal distribution (can't do lognormal cause 0 values)    
+if calcMantle == 1
     tab.flux.U238(13,:) = stat(flux.man.dm.U238(final_cut),stat_method1); 
     tab.flux.Th232(13,:) = stat(flux.man.dm.Th232(final_cut),stat_method1); 
-    tab.flux.total(13,:) = stat(flux.man.dm.U238(final_cut)+flux.man.dm.Th232(final_cut),stat_method1); 
+    tab.flux.total(13,:) = stat(flux.man.dm.U238(final_cut)+flux.man.dm.Th232(final_cut),stat_method1);
 
     
 % Enriched Mantle (EM; TNU)
     tab.flux.U238(14,:) = stat(flux.man.em.U238(final_cut),stat_method1); 
     tab.flux.Th232(14,:) = stat(flux.man.em.Th232(final_cut),stat_method1); 
     tab.flux.total(14,:) = stat(flux.man.em.U238(final_cut)+flux.man.em.Th232(final_cut),stat_method1); 
-
+end
     
 % Total Flux at Detector (TNU) (lognormal distribution)
     flux.total.U238 = U238_litho + flux.man.dm.U238 + flux.man.em.U238; 
