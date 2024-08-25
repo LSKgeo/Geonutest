@@ -208,7 +208,7 @@ end
     depth = randist(s1.depth(k), unc*s1.depth(k), 0, cor.thick); 
     depth(depth<0) = 0; 
 
-% -- Density w/ uncertainty (3 percent) (temperary variables) -- (kg/m3)
+% -- Density w/ uncertainty (3 percent) (temporary variables) -- (kg/m3)
         %- value is correlated to Vp
     rho = randist(s1.rho(k),s1.rho(k)*0.05,0,cor.vp);   rho(rho<0) = 0; % remove negative if exist
 
